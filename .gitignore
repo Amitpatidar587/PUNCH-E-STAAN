@@ -1,0 +1,5 @@
+# Ignore .DS_Store files globally
+.DS_Store
+
+# Optional: Ignore other OS generated files
+Thumbs.db
