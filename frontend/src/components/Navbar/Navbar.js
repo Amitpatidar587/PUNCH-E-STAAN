@@ -20,9 +20,14 @@ export default function Navbar() {
         <li className="nav-item">
           <Link className="nav-link text-white mx-4" aria-current="page" to="/main/scheme">Scheme</Link>
         </li>
-       
-       
-       
+        <li className="nav-item">
+          <Link className="nav-link text-white mx-4" aria-current="page" to="/main/contact">Contact</Link>
+        </li>
+        <li className="nav-item">
+          <Link className="nav-link text-white mx-4" aria-current="page" to="/main/problem">Problem</Link>
+        </li>
+        
+      
       </ul>
     
     </div>

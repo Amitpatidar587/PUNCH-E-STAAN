@@ -5,7 +5,9 @@ const Register = require("./model/register");
 const cors = require("cors");
 const Event=require('./model/events');
 const Scheme=require('./model/scheme')
+const Problem=require('./model/problem');
 const bodyParser = require("body-parser");
+const Contact = require("./model/contact");
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -52,9 +54,10 @@ app.post("/login", async (req, res) => {
     const { email, password } = req.body;
     console.log("user =>", email, password);
     const user = await Register.findOne({ email });
+
     if (user) {
       if (user.password === password) {
-        res.json({ message: true });
+        res.json(user);
       } else {
         res.json({ message: 'invalid password please try again' });
       }
@@ -67,20 +70,39 @@ app.post("/login", async (req, res) => {
 });
 
 
-//events pass
+//events initial send
 app.get('/events',async(req,res)=>{
   const data=await Event.find({});
   console.log('data=>',data)
   res.json(data);
 })
 
-//scheme pass
+//scheme initial send
 app.get('/schemes',async(req,res)=>{
   const data=await Scheme.find({});
   console.log('data=>',data)
   res.json(data);
 })
 
+//contact initial send
+app.get('/contacts',async(req,res)=>{
+  const data=await Contact.find({});
+  res.json(data);
+})
+
+//problem get
+app.post('/user/:id/problem',async(req,res)=>{
+    let {id}=req.params;
+    let user=await Register.findById(id);
+    let newProblem=new Problem(req.body.problem);
+    user.problems.push(newProblem);
+
+    await newProblem.save();
+    await user.save();
+    
+    res.json({message:'success'});
+
+})
 
 
 app.listen(8080, () => {

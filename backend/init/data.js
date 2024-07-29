@@ -111,3 +111,62 @@ module.exports.schemes = [
     details: "Maternity benefit program to provide financial assistance to pregnant women and lactating mothers."
   }
 ];
+
+module.exports.contacts=[
+  {
+    image: "https://media.istockphoto.com/id/958064228/photo/portrait-of-happy-young-man.webp?b=1&s=170667a&w=0&k=20&c=ywaPLXj8meNw8tmZ3rOju5nrtlmhMwrQnjpW4nlqy_s=",
+    name: "Rajiv Sharma",
+    phone: 9876543210,
+    email: "rajiv.sharma@example.com",
+    profession: "Health Officer"
+  },
+  {
+    image: "https://media.istockphoto.com/id/1369746033/photo/portrait-of-a-handsome-young-businessman-working-in-office.webp?b=1&s=170667a&w=0&k=20&c=6NsWuVNEzyJzuq9AcULzyV41gzxRUbWgAq5T4b59SUg=",
+    name: "Meera Kumar",
+    phone: 9876543211,
+    email: "meera.kumar@example.com",
+    profession: "Sarpanch"
+  },
+  {
+    image: "https://media.istockphoto.com/id/1614201104/photo/rural-indian-family-meeting-with-bank-manager-or-financial-advisor-male-agent-with-laptop.webp?b=1&s=170667a&w=0&k=20&c=rcJDEGYQ-VOxF3O8DWpoLxLWwUK8PkJgs16QWS6nSu0=",
+    name: "Amit Singh",
+    phone: 9876543212,
+    email: "amit.singh@example.com",
+    profession: "Gram Sachiv"
+  },
+  {
+    image: "https://media.istockphoto.com/id/953526828/photo/happy-female-candidate-after-successful-job-interview.webp?b=1&s=170667a&w=0&k=20&c=KFbwR73d_IgdnTGek9SCesrp0y7j__IfVD8mlICUiRE=",
+    name: "Geeta Devi",
+    phone: 9876543213,
+    email: "geeta.devi@example.com",
+    profession: "Anganwadi Worker"
+  },
+  {
+    image: "https://media.istockphoto.com/id/1284080937/photo/confident-bus-driver-in-uniform.webp?b=1&s=170667a&w=0&k=20&c=yybuqwmkGOleIUlxjcQWZp7QuRL9yLzUqA19iKNpwQk=",
+    name: "Arun Kumar",
+    phone: 9876543214,
+    email: "arun.kumar@example.com",
+    profession: "Police Inspector"
+  },
+  {
+    image: "https://media.istockphoto.com/id/1288948353/photo/young-indian-bank-officer-showing-mobile-screen-with-farmer.webp?b=1&s=170667a&w=0&k=20&c=h89MVbkFd2dhN709f5uYupQSkVL9WQ_iQR_vzDGG4-s=",
+    name: "Ravi Verma",
+    phone: 9876543215,
+    email: "ravi.verma@example.com",
+    profession: "Public Works Department Engineer"
+  },
+  {
+    image: "https://media.istockphoto.com/id/1288954792/photo/young-indian-banker-or-agronomist-visit-poor-farmer-family.webp?b=1&s=170667a&w=0&k=20&c=VpyZZOIdMV3AOq9_i_3DlA7yaR6juTyHL0zvugGe5ns=",
+    name: "Sunita Patel",
+    phone: 9876543216,
+    email: "sunita.patel@example.com",
+    profession: "ASHA Worker"
+  },
+  {
+    image: "https://media.istockphoto.com/id/1279934569/photo/indian-farmer-with-agronomist-at-cotton-field-and-agronomist-writing-some-information-on.webp?b=1&s=170667a&w=0&k=20&c=LynhMAiL-3dPkjLoea8fYsDrb6hplixWQo_bpOPTyEU=",
+    name: "Rajesh Yadav",
+    phone: 9876543217,
+    email: "rajesh.yadav@example.com",
+    profession: "Agriculture Officer"
+  }
+]

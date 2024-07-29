@@ -1,24 +1,30 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Navigate } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
+import { useContext } from "react";
+import UserContext from "../../context/UserContext";
 
 const App = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { user, setUser } = useContext(UserContext);
 
   const handleLogin = async (e) => {
     try {
       e.preventDefault();
       await axios
-        .post("http://localhost:8080/login", {email,password})
+        .post("http://localhost:8080/login", { email, password })
         .then((res) => {
-          if (res.data.message === true) {
+          if (
+            res.data.message === "invalid password please try again" ||
+            res.data.message === "invalid user please try again"
+          ) {
+            console.log(res.data.message);
+          } else {
+            setUser(res.data);
             navigate("/main/event");
-          }
-          else{
-            alert(res.data.message)
           }
         })
         .catch((err) => console.log("login axios err=>", err));
