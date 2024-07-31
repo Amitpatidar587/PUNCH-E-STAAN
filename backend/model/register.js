@@ -28,13 +28,11 @@ const RegisterSchema=new Schema({
         }
     ]  
 })
-
 RegisterSchema.post('findOneAndDelete',async(user)=>{
     if(user){
         await Problem.deleteMany({_id:{$in:user.problems}})
     }
 })
-
 
 
 const Register=mongoose.model('Register',RegisterSchema)

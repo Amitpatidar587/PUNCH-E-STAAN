@@ -77,3 +77,100 @@ export default function extra() {
   )
 
 }
+
+
+
+
+
+
+
+
+<div className="min-h-screen bg-none  flex flex-col lg:flex-row">
+<div className="lg:w-1/4 bg-white h-screen p-4 shadow-lg  mb-4 lg:mb-0">
+  <h2 className="text-xl font-bold mb-4">Options</h2>
+  <button
+    onClick={handleRaiseClick}
+    className="block w-full bg-blue-500 text-white py-2 px-4 rounded mb-2"
+  >
+    Raise Problem
+  </button>
+  <button
+    onClick={handleStatusClick}
+    className="block w-full bg-green-500 text-white py-2 px-4 rounded"
+  >
+    Status
+  </button>
+</div>
+
+
+<div className="lg:w-3/4 bg-none  h-screen p-4 shadow-lg  ml-0 ">
+<h1 className="text-5xl pt-4   text-center inline-block  mx-auto   font-bold text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]">
+  {" "}
+  Upcoming Village Events{" "}
+</h1>
+  {view === '' && (
+    <div>
+      <h2 className="text-2xl font-bold mb-4">Welcome to Punch-e-Staan</h2>
+      <p className="text-lg">
+        Punch-e-Staan is a comprehensive platform providing details about government activities and funds. 
+        Stay informed about the latest updates and ensure transparency in government operations.
+      </p>
+    </div>
+  )}
+  {view === 'raise' && (
+    <div>
+      <h2 className="text-2xl font-bold mb-4">Raise a Problem</h2>
+      <form className="space-y-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Problem Type</label>
+          <input
+            type="text"
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            placeholder="Type of Problem"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Problem Description</label>
+          <textarea
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            placeholder="Describe the problem"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Address</label>
+          <input
+            type="text"
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            placeholder="Address"
+          />
+        </div>
+        <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded">
+          Submit
+        </button>
+        <button
+          type="button"
+          onClick={handleBackClick}
+          className="bg-gray-500 text-white py-2 px-4 rounded ml-4"
+        >
+          Back
+        </button>
+      </form>
+    </div>
+  )}
+  {view === 'status' && (
+    <div>
+      <h2 className="text-2xl font-bold mb-4">Problem Status</h2>
+      <p><strong>User Name:</strong> John Doe</p>
+      <p><strong>Contact Number:</strong> 123-456-7890</p>
+      <p><strong>Problem Details:</strong> Example problem description here.</p>
+      <button
+        type="button"
+        onClick={handleBackClick}
+        className="bg-gray-500 text-white py-2 px-4 rounded"
+      >
+        Back
+      </button>
+    </div>
+  )}
+</div>
+</div>
