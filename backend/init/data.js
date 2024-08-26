@@ -170,3 +170,40 @@ module.exports.contacts=[
     profession: "Agriculture Officer"
   }
 ]
+module.exports.expenditureData=[
+  {
+    category: "Education",
+    amountPass: 500000,
+    invested: 450000
+  },
+  {
+    category: "Healthcare",
+    amountPass: 750000,
+    invested: 720000
+  },
+  {
+    category: "Infrastructure",
+    amountPass: 1200000,
+    invested: 1150000
+  },
+  {
+    category: "Agriculture",
+    amountPass: 400000,
+    invested: 380000
+  },
+  {
+    category: "Water Supply",
+    amountPass: 300000,
+    invested: 290000
+  },
+  {
+    category: "Sanitation",
+    amountPass: 200000,
+    invested: 190000
+  },
+  {
+    category: "Electricity",
+    amountPass: 600000,
+    invested: 580000
+  }
+]

@@ -1,13 +1,23 @@
 const express = require("express");
 const app = express();
-const mongoose = require("mongoose");
-const Register = require("./model/register");
 const cors = require("cors");
-const Event=require('./model/events');
-const Scheme=require('./model/scheme')
-const Problem=require('./model/problem');
 const bodyParser = require("body-parser");
-const Contact = require("./model/contact");
+const mongoose = require("mongoose");
+const User = require("./model/user");
+const Problem=require('./model/problem');
+const session=require('express-session');
+const passport=require('passport');
+const LocalStrategy=require('passport-local')
+
+//controllers routes
+const userRouter=require('./routes/user');
+const eventRouter=require('./routes/event');
+const schemeRouter=require('./routes/scheme');
+const contactRouter=require('./routes/contact');
+const expenditureRouter=require('./routes/expenditure');
+const ExpressError = require("./utils/ExpressError");
+
+
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -27,83 +37,83 @@ async function main() {
   await mongoose.connect(MONGO_URL);
 }
 
-//register api
-app.post("/register", async (req, res) => {
-  try {
-    const { name, contact, email, password } = req.body;
-    console.log("data=>", name, contact, email, password);
-    const user = await Register.findOne({ email });
-    if (user) {
-      res.json({ message: "User ID already exist" });
-    } else {
-      const newUser = new Register({ name, contact, email, password });
-      await newUser
-        .save()
-        .then((res) => console.log(res))
-        .catch((err) => console.log(err));
-      res.json({ message: "User Register successfully" });
-    }
-  } catch (error) {
-    console.log(error);
+const sessionOption={
+  secret:'mySuperSecretCode',
+  resave:false,
+  saveUninitialized:true,
+  cookie:{
+    expires:Date.now()+ 7 * 24 * 60 * 60 * 1000,  //7 day  ke liye agr loguot krne k baad wapis aate ho to login karne ki need nahi he isme =((day * hour * minute * second * milisecond ))he  
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    httpOnly:true,
   }
-});
-
-//login
-app.post("/login", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    console.log("user =>", email, password);
-    const user = await Register.findOne({ email });
-
-    if (user) {
-      if (user.password === password) {
-        res.json(user);
-      } else {
-        res.json({ message: 'invalid password please try again' });
-      }
-    } else {
-      res.json({ message: 'invalid user please try again'  });
-    }
-  } catch (error) {
-    console.log(error);
-  }
-});
+};
 
 
-//events initial send
-app.get('/events',async(req,res)=>{
-  const data=await Event.find({});
-  console.log('data=>',data)
-  res.json(data);
-})
 
-//scheme initial send
-app.get('/schemes',async(req,res)=>{
-  const data=await Scheme.find({});
-  console.log('data=>',data)
-  res.json(data);
-})
+app.use(session(sessionOption))
 
-//contact initial send
-app.get('/contacts',async(req,res)=>{
-  const data=await Contact.find({});
-  res.json(data);
-})
+
+app.use(passport.initialize())
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()))
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+
+
+
+app.use('/',userRouter);
+app.use('/events',eventRouter);
+app.use('/schemes',schemeRouter);
+app.use('/contacts',contactRouter);
+app.use('/expenditures',expenditureRouter);
+
+
 
 //problem get
-app.post('/user/:id/problem',async(req,res)=>{
+app.get('/users/:id/problems',async(req,res)=>{
+  let{id}=req.params;
+  let user=await User.findById(id).populate('problems');
+  res.json(user);
+})
+app.post('/users/:id/problems',async(req,res)=>{
     let {id}=req.params;
-    let user=await Register.findById(id);
+    let user=await User.findById(id);
     let newProblem=new Problem(req.body.problem);
     user.problems.push(newProblem);
-
     await newProblem.save();
     await user.save();
-    
-    res.json({message:'success'});
-
+    res.json({message:'problem addded'});
+})
+app.put('/users/:id/problems/:pId',async(req,res)=>{
+  let{pId}=req.params;
+  let problem=req.body.problem;
+  await Problem.findByIdAndUpdate(pId,{...problem});
+  res.json({message:"problem updated"});
+})
+app.delete('/users/:id/problems/:pId',async(req,res)=>{
+  let{id,pId}=req.params;
+  console.log('id=>',id,"pid=>",pId)
+  await Problem.findByIdAndDelete(pId);
+  await User.findByIdAndUpdate(id,{$pull:{problems:pId}});
+  res.json({message:'problem deleted'})
+})
+app.get('/problems',async(req,res)=>{
+  let problems =await Problem.find({})
+  console.log('problems=>',problems);
+  res.json(problems);
 })
 
+
+app.all('*',(req,res,next)=>{
+  console.log('page not found')
+  next(new ExpressError(404,'page not found'))
+})
+app.use((err,req,res,next)=>{
+  let{statusCode,message}=err;
+  res.json({error:message})
+})
 
 app.listen(8080, () => {
   console.log("port is listing");

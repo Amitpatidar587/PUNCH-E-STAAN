@@ -2,7 +2,9 @@ const mongoose=require('mongoose');
 const Event=require('../model/events');
 const Scheme =require('../model/scheme');
 const Contact=require('../model/contact');
-const {events,schemes,contacts}=require('./data');
+const {events,schemes,contacts,expenditureData}=require('./data');
+const Expenditure = require('../model/expenditure');
+
 
 
 
@@ -22,11 +24,14 @@ const initDb=async()=>{
   await Event.deleteMany({});
   await Scheme.deleteMany({});
   await Contact.deleteMany({});
+  await Expenditure.deleteMany({});
 
 
   await Event.insertMany(events)
   await Scheme.insertMany(schemes)
   await Contact.insertMany(contacts)
+  await Expenditure.insertMany(expenditureData)
+
   .then(res=>console.log('initial data is add successfully'))
   .catch(err=>console.log(err));
 

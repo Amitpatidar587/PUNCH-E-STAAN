@@ -4,66 +4,63 @@ import { Navigate } from "react-router-dom";
 import axios from "axios";
 import { useContext } from "react";
 import UserContext from "../../context/UserContext";
+import Flash from "../flash/Flash";
+
 
 const App = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
-  const { user, setUser } = useContext(UserContext);
+  const {setFlashMessage}=useContext(UserContext);
 
   const handleLogin = async (e) => {
     try {
       e.preventDefault();
       await axios
-        .post("http://localhost:8080/login", { email, password })
+        .post("http://localhost:8080/login", { username, password })
         .then((res) => {
-          if (
-            res.data.message === "invalid password please try again" ||
-            res.data.message === "invalid user please try again"
-          ) {
-            console.log(res.data.message);
-          } else {
-            setUser(res.data);
-            navigate("/main/event");
+          if(res.data?.error && res.data.error.length){
+            setFlashMessage('invalid user')
+          }else{
+            console.log(res.data);
+            localStorage.setItem('user', JSON.stringify(res.data));
+            navigate("/event");
           }
-        })
-        .catch((err) => console.log("login axios err=>", err));
+        }
+        )
+        .catch((err) =>{
+           console.log("login axios err=>", err);
+           alert('username or password in incorrect')
+          })
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleRegister = () => {
-    navigate("/registration");
-  };
 
   return (
     <div
-      className="flex justify-center items-center h-screen bg-cover bg-center bg-no-repeat"
-      style={{
-        backgroundImage:
-          "url(https://images.unsplash.com/photo-1523760957528-55d1d540360d?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)",
-      }}
+      className="flex justify-center items-center h-screen bg-cover bg-center bg-no-repeat" 
     >
-      <div className="w-1/3 p-10 shadow-2xl shadow-black rounded-2xl bg-orange-400 bg-opacity-0 backdrop-filter backdrop-blur-lg text-center">
-        <h1 className="mb-5 text-gray-800 text-2xl">Login</h1>
+      <div className="w-1/3 p-10 mt-0 pt-6 shadow-2xl shadow-black rounded-2xl bg-orange-400 bg-opacity-0 backdrop-filter backdrop-blur-lg text-center">
+        <h1 className="mb-5 text-gray-800 text-white text-2xl">Login</h1>
         <form onSubmit={handleLogin}>
           <div className="mb-4 text-left">
-            <label className="block mb-2 text-gray-700" htmlFor="email">
-              Email
+            <label className="block mb-2 text-white " htmlFor="username">
+              User ID /email ID
             </label>
             <input
               type="email"
-              id="email"
-              value={email}
+              id="username"
+              value={username}
               placeholder="enter user Id"
-              onChange={(e) => setEmail(e.target.value)}
-              className={`w-full p-2 border rounded-md bg-gray-100 transition ease-in-out duration-300 focus:border-orange-500`}
+              onChange={(e) => setUsername(e.target.value)}
+              className={`w-full p-2  bg-transparent border-1 border-white rounded-md bg-gray-100 transition ease-in-out duration-300 focus:border-orange-500`}
               required
             />
           </div>
           <div className="mb-6 text-left">
-            <label className="block mb-2 text-gray-700" htmlFor="password">
+            <label className="block mb-2 text-white " htmlFor="password">
               Password
             </label>
             <input
@@ -72,23 +69,29 @@ const App = () => {
               placeholder="enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className={`w-full p-2 border rounded-md bg-gray-100 transition ease-in-out duration-300 focus:border-orange-500`}
+              className={`w-full p-2 border-1 border-white bg-transparent rounded-md bg-gray-100 transition ease-in-out duration-300 focus:border-orange-500`}
               required
             />
           </div>
           <button
-            type="submit"
-            className="w-full p-2 mt-4 bg-blue-500 text-white rounded-md transition ease-in-out duration-300 hover:bg-blue-700 transform hover:scale-105"
-          >
-            Login
+            className="w-full p-2 mt-4 bg-transparent border-2 text-white rounded-md transition ease-in-out duration-300 hover:bg-red-700 transform hover:scale-105"
+            type="submit" >
+
+            Log in
           </button>
+       
+
         </form>
-        <button
-          onClick={handleRegister}
-          className="w-full p-2 mt-4 bg-red-500 text-white rounded-md transition ease-in-out duration-300 hover:bg-red-700 transform hover:scale-105"
-        >
-          Register
-        </button>
+
+                <p class="flex justify-center mt-6 text-white font-sans text-sm antialiased font-light leading-normal text-inherit">
+          Don't have an account?
+          <Link
+            to='/registration'
+            class="block ml-1 text-white font-sans text-sm antialiased font-bold leading-normal text-blue-gray-900">
+            Sign up
+          </Link>
+          </p>
+    
       </div>
     </div>
   );
